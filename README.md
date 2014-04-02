@@ -50,13 +50,14 @@ $wgDarkcoinValuesFetchInterval = 3600;
 
 From your pages in the Wiki:
 
-* <darkcoinvalue value="BTC/DRK" />
-* <darkcoinvalue value="DRK/BTC" />
-* <darkcoinvalue value="USD/DRK" />
-* <darkcoinvalue value="EUR/BTC" />
-* <darkcoinvalue value="EUR/DRK" />
-* <darkcoinvalue value="LastRefresh" />
-
+```HTML
+<darkcoinvalue value="BTC/DRK" />
+<darkcoinvalue value="DRK/BTC" />
+<darkcoinvalue value="USD/DRK" />
+<darkcoinvalue value="EUR/BTC" />
+<darkcoinvalue value="EUR/DRK" />
+<darkcoinvalue value="LastRefresh" />
+```
 
 ## History:
 ### v1.0.0 (2014-03-11)
