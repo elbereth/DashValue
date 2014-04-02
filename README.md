@@ -1,16 +1,16 @@
-Darkcoin Values v1.0.2
+# Darkcoin Values v1.0.2
 By Alexandre Devilliers (Made for darkcoin.fr and darkcoin.eu)
 
 Retrieve values for BTC/DRK (via CryptoAPI on Poloniex, Cryptsy and C-Cex).
 Can also retrieve value against EUR fiat (via Kraken)
 
-Requirement:
+## Requirement:
 * KrakenAPIClient.php from Kraken (https://github.com/payward/kraken-api-client)
 * Disable cache on the pages where this is used, or it will not update until the cache expires.
   You can use MagicNoCache plugin for this purpose.
 * apc or apcu php extensions (this will be dropped in future versions)
 
-Install:
+## Install:
 * Go to your MediaWiki extensions sub-folder (ex: cd /home/mediawiki/www/extensions/)
 * Get Darkcoin Value from github:
   git clone https://github.com/elbereth/DarkcoinValue.git
@@ -18,11 +18,15 @@ Install:
 * Go to the Darkcoin Value include subfolder and get KrakenAPIClient.php:
   wget https://raw.githubusercontent.com/payward/kraken-api-client/master/php/KrakenAPIClient.php
 
-Configuration:
+## Configuration:
 * Add the following line at the end of your LocalSettings.php file:
+```PHP
   require_once("$IP/extensions/DarkcoinValues/DarkcoinValues.php" );
+```
+
 * Here are some parameters to setup:
-  
+
+```PHP  
 // Available values:
 //   USD/DRK - From CryptoAPI (Average)
 //   DRK/BTC - From CryptoAPI (Average)
@@ -41,8 +45,10 @@ $wgDarkcoinValuesFormatLocale = 'fr_FR';
 
 // Refresh cache every x seconds (is negative or 0 it will always fetch = SLOW)
 $wgDarkcoinValuesFetchInterval = 3600;
+```
 
 From your pages in the Wiki:
+
 <darkcoinvalue value="BTC/DRK" />
 <darkcoinvalue value="DRK/BTC" />
 <darkcoinvalue value="USD/DRK" />
@@ -51,7 +57,7 @@ From your pages in the Wiki:
 <darkcoinvalue value="LastRefresh" />
 
 
-History:
+## History:
 v1.0.0 (2014-03-11)
 * Initial working version (used on darkcoin.fr)
 
