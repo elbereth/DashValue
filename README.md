@@ -1,4 +1,4 @@
-# Darkcoin Values for MediaWiki v1.0.2
+# Darkcoin Values for MediaWiki
 By Alexandre Devilliers (Made for darkcoin.fr and darkcoin.eu)
 
 Retrieve values for BTC/DRK (via CryptoAPI on Poloniex, Cryptsy and C-Cex). Can also retrieve value against EUR fiat (via Kraken)
