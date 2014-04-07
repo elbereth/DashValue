@@ -32,7 +32,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 $wgExtensionCredits['other'][] = array(
         'path'           => __FILE__,
         'name'           => 'Darkcoin Values',
-        'version'        => '1.0.2',
+        'version'        => '1.0.3',
         'author'         => 'Alexandre Devilliers',
         'descriptionmsg' => 'Récupère les valeurde BTC/DRK (via CryptoAPI sur Poloniex, Cryptsy et C-Cex) et EUR/BTC (via Kraken)',
 //        'url'            => 'http://wiki.darkcoin.fr/Extension_darkcoinvalues',

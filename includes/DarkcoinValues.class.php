@@ -90,17 +90,22 @@ class DarkcoinValues {
 		// If UseKraken, retrieve EUR/BTC
 		$euro2btc = false;
 		if ($this->useKraken) {
-			$dataKraken = $this->KrakenAPI->QueryPublic('Ticker', array('pair' => 'XBTCZEUR'));
-			if (is_array($dataKraken) && isset($dataKraken['error']) && (count($dataKraken['error']) == 0)
-			&& isset($dataKraken['result']) && is_array($dataKraken['result'])
-			&& isset($dataKraken['result']['XXBTZEUR']) && is_array($dataKraken['result']['XXBTZEUR'])
-			&& isset($dataKraken['result']['XXBTZEUR']['p']) && is_array($dataKraken['result']['XXBTZEUR']['p'])
-			&& isset($dataKraken['result']['XXBTZEUR']['p'][1]) ) {
-				$euro2btc = $dataKraken['result']['XXBTZEUR']['p'][1];
-				$cancache = true;
+			try {
+	     			$dataKraken = $this->KrakenAPI->QueryPublic('Ticker', array('pair' => 'XBTCZEUR'));
+				if (is_array($dataKraken) && isset($dataKraken['error']) && (count($dataKraken['error']) == 0)
+				&& isset($dataKraken['result']) && is_array($dataKraken['result'])
+				&& isset($dataKraken['result']['XXBTZEUR']) && is_array($dataKraken['result']['XXBTZEUR'])
+				&& isset($dataKraken['result']['XXBTZEUR']['p']) && is_array($dataKraken['result']['XXBTZEUR']['p'])
+				&& isset($dataKraken['result']['XXBTZEUR']['p'][1]) ) {
+					$euro2btc = $dataKraken['result']['XXBTZEUR']['p'][1];
+					$cancache = true;
+				}
+				else {
+					$cancache = false;
+ 				}
 			}
-			else {
-				$cancache = false;
+			catch (Exception $e) {
+				// TODO: Do something? Fallback to cached value?
 			}
 		}
 		else {

@@ -60,8 +60,12 @@ From your pages in the Wiki:
 ```
 
 ## History:
-### v1.0.0 (2014-03-11)
-* Initial working version (used on darkcoin.fr)
+
+### v1.0.3 (2014-04-07)
+* Added much needed exception checking on KrakenAPI call
 
 ### v1.0.2 (2014-04-02)
 * Added caching via APC/APCU (also used as fallback when query failed)
+
+### v1.0.0 (2014-03-11)
+* Initial working version (used on darkcoin.fr)
