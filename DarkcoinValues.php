@@ -29,24 +29,31 @@ if ( !defined( 'MEDIAWIKI' ) ) {
         die( 'This file is a MediaWiki extension, it is not a valid entry point' );
 }
 
-$wgExtensionCredits['other'][] = array(
+$wgExtensionCredits['parserhook'][] = array(
         'path'           => __FILE__,
         'name'           => 'Darkcoin Values',
-        'version'        => '1.0.3',
+        'version'        => '1.0.4',
         'author'         => 'Alexandre Devilliers',
-        'descriptionmsg' => 'Récupère les valeurde BTC/DRK (via CryptoAPI sur Poloniex, Cryptsy et C-Cex) et EUR/BTC (via Kraken)',
-//        'url'            => 'http://wiki.darkcoin.fr/Extension_darkcoinvalues',
+        'descriptionmsg' => 'darkcoinvalues-desc',
+        'url'            => 'https://github.com/elbereth/DarkcoinValue',
 );
 
-//$wgExtensionMessagesFiles['googleAnalytics'] = dirname(__FILE__) . '/googleAnalytics.i18n.php';
+$wgExtensionMessagesFiles['DarkcoinValues'] = dirname(__FILE__) . '/DarkcoinValues.i18n.php';
 
 $wgHooks['ParserFirstCallInit'][] = 'wfDarkcoinValueParserInit';
 
 $wgDarkcoinvaluesIncludes = __DIR__ . '/includes';
 
-$wgAutoloadClasses['KrakenAPI'] = $wgDarkcoinvaluesIncludes . '/KrakenAPIClient.php';
-$wgAutoloadClasses['EZCache'] = $wgDarkcoinvaluesIncludes . '/EZCache.class.php';
 $wgAutoloadClasses['DarkcoinValues'] = $wgDarkcoinvaluesIncludes . '/DarkcoinValues.class.php';
+$wgAutoloadClasses['EZCache'] = $wgDarkcoinvaluesIncludes . '/EZCache.class.php';
+if (file_exists($wgDarkcoinvaluesIncludes . '/KrakenAPIClient.php')) {
+	$wgAutoloadClasses['KrakenAPI'] = $wgDarkcoinvaluesIncludes . '/KrakenAPIClient.php';
+	// If false do not use KrakenAPI (all EUR values not available)
+	$wgDarkcoinValuesUseKrakenAPI = true;
+}
+else {
+	$wgDarkcoinValuesUseKrakenAPI = false;
+}
 
 // Available values:
 //   USD/DRK - From CryptoAPI (Average)
@@ -55,11 +62,8 @@ $wgAutoloadClasses['DarkcoinValues'] = $wgDarkcoinvaluesIncludes . '/DarkcoinVal
 //   EUR/DRK - From CryptoAPI+KrakenAPI
 $wgDarkcoinValuesDefault = 'USD/DRK';
 
-// If false do not use KrakenAPI (all EUR values not available)
-$wgDarkcoinValuesUseKrakenAPI = true;
-
 // Locale to use to format decimals
-$wgDarkcoinValuesFormatLocale = 'fr_FR';
+$wgDarkcoinValuesFormatLocale = 'en_EN';
 
 // Refresh cache every x seconds (is negative or 0 it will always fetch = SLOW)
 $wgDarkcoinValuesFetchInterval = 3600;
@@ -92,19 +96,19 @@ function wfDarkcoinValueRender( $input, array $args, Parser $parser, PPFrame $fr
 	foreach( $args as $name => $value )
 	{
 		if ($name == 'value') {
-			if ($value == 'BTC/DRK') {
+			if (strcasecmp($value,'BTC/DRK') == 0) {
 				$valuetype = 'BTC/DRK';
 			}
-			elseif ($value == 'DRK/BTC') {
+			elseif (strcasecmp($value,'DRK/BTC') == 0) {
 				$valuetype = 'DRK/BTC';
 			}
-			elseif ($value == 'USD/DRK') {
+			elseif (strcasecmp($value,'USD/DRK') == 0) {
 				$valuetype = 'USD/DRK';
 			}
-                        elseif ($value == 'EUR/DRK') {
+                        elseif (strcasecmp($value,'EUR/DRK') == 0) {
                                 $valuetype = 'EUR/DRK';
                         }
-                        elseif ($value == 'EUR/BTC') {
+                        elseif (strcasecmp($value,'EUR/BTC') == 0) {
                                 $valuetype = 'EUR/BTC';
                         }
                         elseif (strcasecmp($value,'LastRefresh') == 0) {

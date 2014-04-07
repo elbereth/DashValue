@@ -29,4 +29,29 @@ if ( !defined( 'MEDIAWIKI' ) ) {
         die( 'This file is a MediaWiki extension, it is not a valid entry point' );
 }
 
+
+$messages = array();
+
+/** English
+ * @author Alexandre Devilliers
+ */
+$messages['en'] = array(
+        'darkcoinvalues-desc' => 'Adds &lt;darkcoinvalue [value=todisplay] /&gt; to retrieve various DRK (Darkcoin) values.'
+);
+
+/** Spanish (Español)
+ * @author Alexandre Devilliers
+ */
+$messages['es'] = array(
+        'darkcoinvalues-desc' => 'Añade &lt;darkcoinvalue [value=todisplay] /&gt; para récuperar valores de DRK (Darkcoin).'
+);
+
+/** French (Français)
+ * @author Alexandre Devilliers
+ */
+$messages['fr'] = array(
+        'darkcoinvalues-desc' => 'Ajoute &lt;darkcoinvalue [value=a_afficher] /&gt; pour récupérer différentes valeurs de DRK (Darkcoin).'
+);
+
+
 ?>

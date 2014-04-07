@@ -37,11 +37,11 @@ class DarkcoinValues {
     protected $fetchInterval;
     protected $cache;
 
-    function __construct($useKraken,$useLocale = 'fr_FR',$fetchInterval = 60)
+    function __construct($useKraken,$useLocale = 'en_EN',$fetchInterval = 3600)
     {
 
 	// Use KrakenAPI for EUR conversion
-	$this->useKraken = is_bool($useKraken) && $useKraken;
+	$this->useKraken = class_exists('KrakenAPI') && is_bool($useKraken) && $useKraken;
 	if ($this->useKraken) {
 		$this->KrakenAPI = new KrakenAPI('','');
 	}
@@ -125,7 +125,7 @@ class DarkcoinValues {
 		$decoded = $data;
 	}
 
-        if ($decoded != NULL) {
+        if (isset($decoded) && ($decoded != NULL)) {
                 if ($value == 'BTC/DRK') {
 			$output = $decoded['drkavg'];
 			if ($this->numFormat !== false) {
@@ -189,7 +189,6 @@ class DarkcoinValues {
 		}
         }
 
-//        $output = $output.' - '.($time2-$time1).' ms - '.($time3-$time2).' ms - '.($time4-$time3).' ms = '.($time4-$time1).' ms';
 	return $output;
  
     }
