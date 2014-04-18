@@ -70,6 +70,11 @@ From your pages in the Wiki:
 
 ## History:
 
+### v1.0.5 (2014-04-18)
+* Added fallback to not use average DRK/BTC value when 0. It will use the direct value (in that order) from: Cryptsy, Ccex or Poloniex (Unless the value is equal to 0 or 1)
+* Added fallback to cached value when CryptoAPI fails
+* Added fallback to cached value when Kraken API raises an exception
+
 ### v1.0.4 (2014-04-07)
 * Updated readme for needed intl extension
 * Added internationalization (for the extension description)

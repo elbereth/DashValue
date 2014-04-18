@@ -105,7 +105,11 @@ class DarkcoinValues {
  				}
 			}
 			catch (Exception $e) {
-				// TODO: Do something? Fallback to cached value?
+				// If call to Kraken API failed, fallback to cache
+				if ($usedcache) {
+					$euro2btc = $data['eurbtc'];
+					$cancache = false;
+				}
 			}
 		}
 		else {
@@ -115,19 +119,29 @@ class DarkcoinValues {
 		if ($datatry !== FALSE) {
 			$decoded = json_decode($datatry,true);
 			if ($decoded != NULL) {
-				$decoded['eurbtc'] = $euro2btc;
 				$datadate = time();
 				$usedcache = false;
 			}
 		}
+		if ($usedcache) {
+			$decoded = $data;
+		}
+                $decoded['eurbtc'] = $euro2btc;
 	}
 	else {
 		$decoded = $data;
 	}
 
         if (isset($decoded) && ($decoded != NULL)) {
+		$drkvaluelist = array($decoded['drkavg'],$decoded['drk_btc_cryptsy'],$decoded['drk_btc_ccex'],$decoded['drk_btc_poloniex']);
+		$curvalue = 0;
+		$drkvalue = '???';
+		while ((($drkvalue == '???') || ($drkvalue <= 0) || ($drkvalue == 1)) && $curvalue < count($drkvaluelist)) {
+			$drkvalue = $drkvaluelist[$curvalue];
+			$curvalue++;
+		}
                 if ($value == 'BTC/DRK') {
-			$output = $decoded['drkavg'];
+			$output = $drkvalue;
 			if ($this->numFormat !== false) {
 			        $this->numFormat->setAttribute(\NumberFormatter::MAX_FRACTION_DIGITS, 8);
 				$output = $this->numFormat->format($output);
@@ -135,7 +149,7 @@ class DarkcoinValues {
 	                $output = $output.' '.$value;
                 }
                 elseif ($value == 'DRK/BTC') {
-                        $output = $decoded['drkavg'];
+                        $output = $drkvalue;
                         if ($output != '???') {
                           $output = 1 / $output;
                         }
@@ -165,7 +179,7 @@ class DarkcoinValues {
                 }
                 elseif ($value == 'EUR/DRK') {
                         if ($euro2btc !== false) {
- 	                       $output = $decoded['drkavg']*$decoded['eurbtc'];
+ 	                       $output = $drkvalue*$decoded['eurbtc'];
         	                if ($this->numFormat !== false) {
                 	                $output = $this->numFormat->format($output);
                         	}

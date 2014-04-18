@@ -32,7 +32,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 $wgExtensionCredits['parserhook'][] = array(
         'path'           => __FILE__,
         'name'           => 'Darkcoin Values',
-        'version'        => '1.0.4',
+        'version'        => '1.0.5',
         'author'         => 'Alexandre Devilliers',
         'descriptionmsg' => 'darkcoinvalues-desc',
         'url'            => 'https://github.com/elbereth/DarkcoinValue',
