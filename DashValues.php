@@ -1,10 +1,10 @@
 <?php
 /*
-Darkcoin Value for Mediawiki
+Dash Value for Mediawiki
 
 The MIT License (MIT)
 
-Copyright (c) 2014 Alexandre Devilliers
+Copyright (c) 2015 Alexandre Devilliers
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -31,51 +31,51 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 
 $wgExtensionCredits['parserhook'][] = array(
         'path'           => __FILE__,
-        'name'           => 'Darkcoin Values',
-        'version'        => '1.0.5',
+        'name'           => 'Dash Values',
+        'version'        => '1.1.0',
         'author'         => 'Alexandre Devilliers',
-        'descriptionmsg' => 'darkcoinvalues-desc',
-        'url'            => 'https://github.com/elbereth/DarkcoinValue',
+        'descriptionmsg' => 'dashvalues-desc',
+        'url'            => 'https://github.com/elbereth/DashValue',
 );
 
-$wgExtensionMessagesFiles['DarkcoinValues'] = dirname(__FILE__) . '/DarkcoinValues.i18n.php';
+$wgExtensionMessagesFiles['DashValues'] = dirname(__FILE__) . '/DashValues.i18n.php';
 
-$wgHooks['ParserFirstCallInit'][] = 'wfDarkcoinValueParserInit';
+$wgHooks['ParserFirstCallInit'][] = 'wfDashValueParserInit';
 
-$wgDarkcoinvaluesIncludes = __DIR__ . '/includes';
+$wgDashvaluesIncludes = __DIR__ . '/includes';
 
-$wgAutoloadClasses['DarkcoinValues'] = $wgDarkcoinvaluesIncludes . '/DarkcoinValues.class.php';
-$wgAutoloadClasses['EZCache'] = $wgDarkcoinvaluesIncludes . '/EZCache.class.php';
-if (file_exists($wgDarkcoinvaluesIncludes . '/KrakenAPIClient.php')) {
-	$wgAutoloadClasses['KrakenAPI'] = $wgDarkcoinvaluesIncludes . '/KrakenAPIClient.php';
+$wgAutoloadClasses['DashValues'] = $wgDashvaluesIncludes . '/DashValues.class.php';
+$wgAutoloadClasses['EZCache'] = $wgDashvaluesIncludes . '/EZCache.class.php';
+if (file_exists($wgDashvaluesIncludes . '/KrakenAPIClient.php')) {
+	$wgAutoloadClasses['KrakenAPI'] = $wgDashvaluesIncludes . '/KrakenAPIClient.php';
 	// If false do not use KrakenAPI (all EUR values not available)
-	$wgDarkcoinValuesUseKrakenAPI = true;
+	$wgDashValuesUseKrakenAPI = true;
 }
 else {
-	$wgDarkcoinValuesUseKrakenAPI = false;
+	$wgDashValuesUseKrakenAPI = false;
 }
 
 // Available values:
-//   USD/DRK - From CryptoAPI (Average)
-//   DRK/BTC - From CryptoAPI (Average)
+//   USD/DASH - From CryptoAPI (Average)
+//   DASH/BTC - From CryptoAPI (Average)
 //   EUR/BTC - From KrakenAPI
-//   EUR/DRK - From CryptoAPI+KrakenAPI
-$wgDarkcoinValuesDefault = 'USD/DRK';
+//   EUR/DASH - From CryptoAPI+KrakenAPI
+$wgDashValuesDefault = 'USD/DASH';
 
 // Locale to use to format decimals
-$wgDarkcoinValuesFormatLocale = 'en_EN';
+$wgDashValuesFormatLocale = 'en_EN';
 
 // Refresh cache every x seconds (is negative or 0 it will always fetch = SLOW)
-$wgDarkcoinValuesFetchInterval = 3600;
+$wgDashValuesFetchInterval = 3600;
 
 // Hook our callback function into the parser
-function wfDarkcoinValueParserInit( Parser $parser ) {
+function wfDashValueParserInit( Parser $parser ) {
 
 	global $wgOut;
 
 	// When the parser sees the <sample> tag, it executes 
 	// the wfSampleRender function (see below)
-	$parser->setHook( 'darkcoinvalue', 'wfDarkcoinValueRender' );
+	$parser->setHook( 'dashvalue', 'wfDashValueRender' );
 
 //        $parser->disableCache();
         $wgOut->enableClientCache(false);
@@ -86,27 +86,27 @@ function wfDarkcoinValueParserInit( Parser $parser ) {
 }
 
 // Execute
-function wfDarkcoinValueRender( $input, array $args, Parser $parser, PPFrame $frame ) {
+function wfDashValueRender( $input, array $args, Parser $parser, PPFrame $frame ) {
 
-	global $wgDarkcoinValuesDefault, $wgDarkcoinValuesUseKrakenAPI, $wgDarkcoinValuesFormatLocale;
+	global $wgDashValuesDefault, $wgDashValuesUseKrakenAPI, $wgDashValuesFormatLocale;
 
-	$valuetype = $wgDarkcoinValuesDefault;
+	$valuetype = $wgDashValuesDefault;
 
 	// Retrieve parameters
 	foreach( $args as $name => $value )
 	{
 		if ($name == 'value') {
-			if (strcasecmp($value,'BTC/DRK') == 0) {
-				$valuetype = 'BTC/DRK';
+			if (strcasecmp($value,'BTC/DASH') == 0) {
+				$valuetype = 'BTC/DASH';
 			}
-			elseif (strcasecmp($value,'DRK/BTC') == 0) {
-				$valuetype = 'DRK/BTC';
+			elseif (strcasecmp($value,'DASH/BTC') == 0) {
+				$valuetype = 'DASH/BTC';
 			}
-			elseif (strcasecmp($value,'USD/DRK') == 0) {
-				$valuetype = 'USD/DRK';
+			elseif (strcasecmp($value,'USD/DASH') == 0) {
+				$valuetype = 'USD/DASH';
 			}
-                        elseif (strcasecmp($value,'EUR/DRK') == 0) {
-                                $valuetype = 'EUR/DRK';
+                        elseif (strcasecmp($value,'EUR/DASH') == 0) {
+                                $valuetype = 'EUR/DASH';
                         }
                         elseif (strcasecmp($value,'EUR/BTC') == 0) {
                                 $valuetype = 'EUR/BTC';
@@ -120,7 +120,7 @@ function wfDarkcoinValueRender( $input, array $args, Parser $parser, PPFrame $fr
 		}
 	}
 
-	$dvClass = new DarkcoinValues($wgDarkcoinValuesUseKrakenAPI,$wgDarkcoinValuesFormatLocale);
+	$dvClass = new DashValues($wgDashValuesUseKrakenAPI,$wgDashValuesFormatLocale);
 
 	return htmlspecialchars($dvClass->GetValue($valuetype));
 }

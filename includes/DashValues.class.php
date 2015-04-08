@@ -1,10 +1,10 @@
 <?php
 /*
-Darkcoin Value for Mediawiki
+Dash Value for Mediawiki
 
 The MIT License (MIT)
 
-Copyright (c) 2014 Alexandre Devilliers
+Copyright (c) 2015 Alexandre Devilliers
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
         die( 'This file is a MediaWiki extension, it is not a valid entry point' );
 }
 
-class DarkcoinValues {
+class DashValues {
 
     protected $useKraken;     // Should we use Kraken to retrieve EUR/BTC, if not we won't be able to give such value
     protected $KrakenAPI;     // Kraken instance
@@ -69,7 +69,7 @@ class DarkcoinValues {
 	$datadate = 0;
 	$usedcache = false;
 
-	$data1cached = $this->cache->retrieve('drkval1',$data1cachedsuccess);
+	$data1cached = $this->cache->retrieve('dashval1',$data1cachedsuccess);
 	if (($data1cachedsuccess === TRUE) && isset($data1cached['datadate']) && isset($data1cached['data'])) {
 		$data = $data1cached['data'];
 		$datadate = $data1cached['datadate'];
@@ -133,23 +133,23 @@ class DarkcoinValues {
 	}
 
         if (isset($decoded) && ($decoded != NULL)) {
-		$drkvaluelist = array($decoded['drkavg'],$decoded['drk_btc_cryptsy'],$decoded['drk_btc_ccex'],$decoded['drk_btc_poloniex']);
+		$dashvaluelist = array($decoded['drkavg'],$decoded['drk_btc_cryptsy'],$decoded['drk_btc_ccex'],$decoded['drk_btc_poloniex']);
 		$curvalue = 0;
-		$drkvalue = '???';
-		while ((($drkvalue == '???') || ($drkvalue <= 0) || ($drkvalue == 1)) && $curvalue < count($drkvaluelist)) {
-			$drkvalue = $drkvaluelist[$curvalue];
+		$dashvalue = '???';
+		while ((($dashvalue == '???') || ($dashvalue <= 0) || ($dashvalue == 1)) && $curvalue < count($dashvaluelist)) {
+			$dashvalue = $dashvaluelist[$curvalue];
 			$curvalue++;
 		}
-                if ($value == 'BTC/DRK') {
-			$output = $drkvalue;
+                if ($value == 'BTC/DASH') {
+			$output = $dashvalue;
 			if ($this->numFormat !== false) {
 			        $this->numFormat->setAttribute(\NumberFormatter::MAX_FRACTION_DIGITS, 8);
 				$output = $this->numFormat->format($output);
 			}
 	                $output = $output.' '.$value;
                 }
-                elseif ($value == 'DRK/BTC') {
-                        $output = $drkvalue;
+                elseif ($value == 'DASH/BTC') {
+                        $output = $dashvalue;
                         if ($output != '???') {
                           $output = 1 / $output;
                         }
@@ -158,7 +158,7 @@ class DarkcoinValues {
                         }
                         $output = $output.' '.$value;
                 }
-                elseif ($value == 'USD/DRK') {
+                elseif ($value == 'USD/DASH') {
                         $output = $decoded['drk_usd'];
                         if ($this->numFormat !== false) {
                                 $output = $this->numFormat->format($output);
@@ -177,9 +177,9 @@ class DarkcoinValues {
 				$output = 'N/A';
 			}
                 }
-                elseif ($value == 'EUR/DRK') {
+                elseif ($value == 'EUR/DASH') {
                         if ($euro2btc !== false) {
- 	                       $output = $drkvalue*$decoded['eurbtc'];
+ 	                       $output = $dashvalue*$decoded['eurbtc'];
         	                if ($this->numFormat !== false) {
                 	                $output = $this->numFormat->format($output);
                         	}
@@ -199,7 +199,7 @@ class DarkcoinValues {
 		if ((!$usedcache) && $cancache) {
 			$data1tocache = array('data' => $decoded,
 	                                     'datadate' => time());
-			$this->cache->store('drkval1',$data1tocache);
+			$this->cache->store('dashval1',$data1tocache);
 		}
         }
 
